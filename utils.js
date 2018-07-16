@@ -40,11 +40,12 @@ export function GetRequest(url) {
 
 /**
  * fixed定位解决遮盖元素问题
+ * @param isAppendChild 是否需要在当前节点父级下 不判断是否最后一个元素跟当前元素相同 就直接创建节点
  * @param cloneDom fixed定位的dom节点
  * @param company css单位 px rem
  * @returns {*}
  */
-export function fixedClone(cloneDom, company = 'rem') {
+export function fixedClone(isAppendChild,cloneDom, company = 'rem') {
   // 获取需要克隆节点的宽高
   let height = cloneDom.offsetHeight;
   let width = cloneDom.offsetWidth;
@@ -65,7 +66,7 @@ export function fixedClone(cloneDom, company = 'rem') {
 
   // 插入dom 如果cloneDom的最后一个节点是cloneDom 那么就直接在最后插入dom 否则就在clone下一个节点前插入dom
   let parent = cloneDom.parentNode;
-  if (parent.lastChild === cloneDom) {
+  if (parent.lastChild === cloneDom || isAppendChild) {
     parent.appendChild(dom);
   } else {
     parent.insertBefore(dom, cloneDom.nextSibling)
