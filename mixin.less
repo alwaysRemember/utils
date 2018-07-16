@@ -1,0 +1,60 @@
+
+ .border-line(@px,@color) {
+  border: @px solid @color;
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+    border: @px*0.5 solid @color;
+  }
+  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
+    // border: @px*0.333333 solid @color;
+  // }
+}
+
+
+ .bottom-line(@px,@color) {
+    border-bottom: @px solid @color;
+   @media screen and (-webkit-min-device-pixel-ratio: 2) {
+    border-bottom: @px*0.5 solid @color;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+    border-bottom: @px*0.333333 solid @color;
+  }
+}
+
+.top-line(@px,@color) {
+    border-top: @px solid @color;
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      border-top: @px*0.5 solid @color;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      border-top: @px*0.333333 solid @color;
+  }
+}
+
+.right-line(@px,@color) {
+  border-right: @px solid @color;
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    border-right: @px*0.5 solid @color;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+    border-right: @px*0.333333 solid @color;
+}
+}
+
+
+.left-line(@px,@color) {
+border-left: @px solid @color;
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  border-left: @px*0.5 solid @color;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+  border-left: @px*0.333333 solid @color;
+}
+}
+//       .top-line(1px,#e6e6e6);
+//       .bottom-line(1px,#e6e6e6);
+//       .right-line(1px,#e6e6e6);
+
+//       .left-line(1px,#e6e6e6);
+//        .border-line(1px,#30b1f5);
+
+//       @import "../../common/css/mixin.less";
