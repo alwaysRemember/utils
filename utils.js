@@ -39,6 +39,23 @@ export function GetRequest(url) {
 }
 
 /**
+ * 获取url的参数（用于key有特殊字符的情况，参数传递特殊字符怎么想的？？）
+ * @param url 链接
+ * @returns List<Map<String,String>>
+ */
+export function getParams(url){
+  let paramsArr = url.split('?')[1].split('&');
+  let arr = [];
+  paramsArr.forEach((item)=>{
+    let itemArr = item.split('=');
+    arr.push({
+      [decodeURI(itemArr[0])]:itemArr[1]}
+    );
+  });
+  return arr;
+}
+
+/**
  * fixed定位解决遮盖元素问题
  * @param isAppendChild 是否需要在当前节点父级下 不判断是否最后一个元素跟当前元素相同 就直接创建节点
  * @param cloneDom fixed定位的dom节点
