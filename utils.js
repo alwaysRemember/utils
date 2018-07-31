@@ -43,13 +43,14 @@ export function GetRequest(url) {
  * @param url 链接
  * @returns List<Map<String,String>>
  */
-export function getParams(url){
+export function getParams(url) {
   let paramsArr = url.split('?')[1].split('&');
   let arr = [];
-  paramsArr.forEach((item)=>{
+  paramsArr.forEach((item) => {
     let itemArr = item.split('=');
     arr.push({
-      [decodeURI(itemArr[0])]:itemArr[1]}
+          [decodeURI(itemArr[0])]: itemArr[1]
+        }
     );
   });
   return arr;
@@ -62,7 +63,7 @@ export function getParams(url){
  * @param company css单位 px rem
  * @returns {*}
  */
-export function fixedClone(isAppendChild,cloneDom, company = 'rem') {
+export function fixedClone(isAppendChild, cloneDom, company = 'rem') {
   // 获取需要克隆节点的宽高
   let height = cloneDom.offsetHeight;
   let width = cloneDom.offsetWidth;
@@ -197,3 +198,30 @@ export function AppJump(jumpLink, download) {
   }
 }
 
+/**
+ * 当路由变化的时候需要处理的事件
+ * @param callback 路由变化执行的回调事件
+ */
+export function goBackConfirm(callback) {
+  let href = window.location.href;
+  // 进入的时候先加个isFirst标识   1 代表第一次进入
+  let link = href.indexOf('isFirst') === -1 ? href.indexOf('?') === -1 ? `${href}?isFirst=1` : `${href}&isFirst=1` : href;
+  history.pushState({back: 1}, null, link);
+  let lastLink = window.location.href;
+  // 监听路由变化
+  onhashchange = callback && callback;
+}
+
+/**
+ * 获取cookie
+ * @returns {{}}
+ */
+export function getCookie() {
+  let obj = {};
+  let cookieArr = document.cookie.split(';');
+  cookieArr.forEach((item) => {
+    let itemArr = item.replace(/\s+/g, "").split('=');
+    obj[itemArr[0]] = itemArr[1];
+  });
+  return obj;
+}
