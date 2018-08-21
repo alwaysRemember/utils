@@ -10,7 +10,6 @@
 export function getSys() {
   let sys;
   let u = navigator.userAgent;
-  let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
   let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
   if (isiOS) {
     sys = "ios";
@@ -26,12 +25,12 @@ export function getSys() {
  * @param url url地址
  * @returns {Object}
  */
-export function GetRequest(url) {
-  var theRequest = new Object();
-  if (url.indexOf("?") != -1) {
-    var str = url.substr(1);
-    var strs = str.split("&");
-    for (var i = 0; i < strs.length; i++) {
+export function getRequestParams(url) {
+  let theRequest = {};
+  if (url.indexOf("?") !== -1) {
+    let str = url.substr(1);
+    let strs = str.split("&");
+    for (let i = 0; i < strs.length; i++) {
       theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
     }
   }
@@ -184,7 +183,7 @@ export function AppJump(jumpLink, download) {
     // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
     // 否则打开a标签的href链接
 
-    if (getSys() == "ios") {
+    if (getSys() === "ios") {
       window.location.href = src;
     } else {
       let ifr = document.createElement('iframe');
@@ -204,12 +203,14 @@ export function AppJump(jumpLink, download) {
  */
 export function goBackConfirm(callback) {
   let href = window.location.href;
-  // 进入的时候先加个isFirst标识   1 代表第一次进入
-  let link = href.indexOf('isFirst') === -1 ? href.indexOf('?') === -1 ? `${href}?isFirst=1` : `${href}&isFirst=1` : href;
-  history.pushState({back: 1}, null, link);
-  let lastLink = window.location.href;
+  location.hash = 'last';
+  history.pushState({back: 1}, null, href);
+
   // 监听路由变化
-  onhashchange = callback && callback;
+  onhashchange = () => {
+    if (location.hash.indexOf('#last') < 0) return;
+    callback && callback()
+  };
 }
 
 /**
