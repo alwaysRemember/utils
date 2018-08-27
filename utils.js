@@ -226,3 +226,32 @@ export function getCookie() {
   });
   return obj;
 }
+
+/**
+ * 把字符串改为金额的格式
+ * @param val 金额字符串
+ * @returns {string}xx,xxx,xxx,xxx.xx
+ */
+export function moneyFormat(val) {
+  if (typeof val !== 'number'){
+    throw new Error("val类型不正确，请传递number类型！");
+  }
+  if ( !(/^[0-9]+.?[0-9]*$/.test(val))){
+    throw new Error("请传递全为数字的number类型");
+  }
+
+  let v = Number(val).toFixed(2); // 保留两位小数
+  let moneyStr = v.split('.')[0]; // 截取金额部分
+  let strLen = moneyStr.length; // 金额部分长度
+  let len = Math.floor(strLen / 3); // 3位添加一个逗号
+  let moneyTop = moneyStr.substring(0,(strLen - 3*len));  // 截取逗号前的部分
+  let start;  // 初始下标
+  let stop; //  终点下标
+  let arr = [moneyTop];
+  for (let i = 1; i < len + 1; i++) {
+    start = moneyStr.length - (3 * i);
+    stop = moneyStr.length - (3*(i-1));
+    arr.push(moneyStr.substring(start,stop)); // 三位一截取
+  }
+  return `${arr.join(',')}.${v.split('.')[1]}`;
+}
