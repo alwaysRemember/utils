@@ -228,8 +228,8 @@ export function getCookie() {
 }
 
 /**
- * 把字符串改为金额的格式
- * @param val 金额字符串
+ * 把数字改为金额的格式
+ * @param val (Number)
  * @returns {string}xx,xxx,xxx,xxx.xx
  */
 export function moneyFormat(val) {
