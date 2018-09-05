@@ -45,13 +45,14 @@ export function getRequestParams(url) {
 export function getParams(url) {
   let paramsArr = url.split('?')[1].split('&');
   let arr = [];
-  paramsArr.forEach((item) => {
+  paramsArr.forEach((item) = > {
     let itemArr = item.split('=');
-    arr.push({
-          [decodeURI(itemArr[0])]: itemArr[1]
-        }
-    );
-  });
+  arr.push({
+        [decodeURI(itemArr[0])]: itemArr[1]
+      }
+  );
+})
+  ;
   return arr;
 }
 
@@ -166,18 +167,21 @@ export function AppJump(jumpLink, download) {
   let d = new Date();
   let t0 = d.getTime();
   openApp(jumpLink);
-  let delay = setInterval(() => {
+  let delay = setInterval(() = > {
     let d = new Date();
-    let t1 = d.getTime();
-    if (t1 - t0 < 3000 && t1 - t0 > 2000) {
-      // 这里跳转下载页
-      Indicator.close();
-      window.location.href = download;
-    }
-    if (t1 - t0 >= 3000) {
-      clearInterval(delay);
-    }
-  }, 1000);
+  let t1 = d.getTime();
+  if (t1 - t0 < 3000 && t1 - t0 > 2000) {
+    // 这里跳转下载页
+    Indicator.close();
+    window.location.href = download;
+  }
+  if (t1 - t0 >= 3000) {
+    clearInterval(delay);
+  }
+},
+  1000
+)
+  ;
 
   function openApp(src) {
     // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
@@ -190,9 +194,12 @@ export function AppJump(jumpLink, download) {
       ifr.src = src;
       ifr.style.display = 'none';
       document.body.appendChild(ifr);
-      window.setTimeout(() => {
+      window.setTimeout(() = > {
         document.body.removeChild(ifr);
-      }, 2000);
+    },
+      2000
+    )
+      ;
     }
   }
 }
@@ -207,10 +214,13 @@ export function goBackConfirm(callback) {
   history.pushState({back: 1}, null, href);
 
   // 监听路由变化
-  onhashchange = () => {
+  onhashchange = () =
+>
+  {
     if (location.hash.indexOf('#last') < 0) return;
     callback && callback()
-  };
+  }
+  ;
 }
 
 /**
@@ -220,10 +230,11 @@ export function goBackConfirm(callback) {
 export function getCookie() {
   let obj = {};
   let cookieArr = document.cookie.split(';');
-  cookieArr.forEach((item) => {
+  cookieArr.forEach((item) = > {
     let itemArr = item.replace(/\s+/g, "").split('=');
-    obj[itemArr[0]] = itemArr[1];
-  });
+  obj[itemArr[0]] = itemArr[1];
+})
+  ;
   return obj;
 }
 
@@ -233,10 +244,10 @@ export function getCookie() {
  * @returns {string}xx,xxx,xxx,xxx.xx
  */
 export function moneyFormat(val) {
-  if (typeof val !== 'number'){
+  if (typeof val !== 'number') {
     throw new Error("val类型不正确，请传递number类型！");
   }
-  if ( !(/^[0-9]+.?[0-9]*$/.test(val))){
+  if (!(/^[0-9]+.?[0-9]*$/.test(val))) {
     throw new Error("请传递全为数字的number类型");
   }
 
@@ -244,14 +255,36 @@ export function moneyFormat(val) {
   let moneyStr = v.split('.')[0]; // 截取金额部分
   let strLen = moneyStr.length; // 金额部分长度
   let len = Math.floor(strLen / 3); // 3位添加一个逗号
-  let moneyTop = moneyStr.substring(0,(strLen - 3*len));  // 截取逗号前的部分
+  let moneyTop = moneyStr.substring(0, (strLen - 3 * len));  // 截取逗号前的部分
   let start;  // 初始下标
   let stop; //  终点下标
   let arr = [moneyTop];
   for (let i = 1; i < len + 1; i++) {
     start = moneyStr.length - (3 * i);
-    stop = moneyStr.length - (3*(i-1));
-    arr.push(moneyStr.substring(start,stop)); // 三位一截取
+    stop = moneyStr.length - (3 * (i - 1));
+    arr.push(moneyStr.substring(start, stop)); // 三位一截取
   }
   return `${arr.join(',')}.${v.split('.')[1]}`;
+}
+
+
+/**
+ * 时间转换
+ * @param x new Date()对象
+ * @param y 格式 yy-M-d h:m:s (可拆开写)
+ * @returns {string | void} 时间字符串
+ */
+export function dateFormat(x, y) {
+  let z = {
+    y: x.getFullYear(),
+    M: x.getMonth() +1,
+    d: x.getDate(),
+    h: x.getHours(),
+    m: x.getMinutes(),
+    s: x.getSeconds()
+  };
+  return y.replace(/(y+|M+|d+|h+|m+|s+)/g, function (v) {
+        return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
+      }
+  );
 }
