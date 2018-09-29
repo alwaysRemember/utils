@@ -287,3 +287,39 @@ export function formatPhone(phone) {
   }
   return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3')
 }
+
+
+/**
+ * 字符加密方法
+ * @param code  需要加密的数据
+ * @returns {string}  加密完成的数据
+ */
+export function enCode(code) {
+  code = code + '';
+  if (code === null || code === '') {
+    throw new Error('请传递要加密的字符');
+  }
+  let str = String.fromCharCode(code.charCodeAt(0) + code.length);
+  for (let i = 0; i < code.length; i++) {
+    str += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1));
+  }
+  return str;
+}
+
+/**
+ * 字符解密方法
+ * @param code  需要解密的数据
+ * @returns {string}  解密完成的数据
+ */
+function deCode(code) {
+  code = code + '';
+  if (code === null || code === '') {
+    throw new Error('请传递要加密的字符');
+  }
+  let str = String.fromCharCode(code.charCodeAt(0) - code.length);
+  for (let i = 1; i < code.length; i++) {
+    str += String.fromCharCode(code.charCodeAt(i) - str.charCodeAt(i - 1));
+  }
+  return str;
+
+}
