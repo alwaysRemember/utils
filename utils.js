@@ -45,13 +45,13 @@ export function getRequestParams(url) {
 export function getParams(url) {
   let paramsArr = url.split('?')[1].split('&');
   let arr = [];
-  paramsArr.forEach((item) = > {
+  paramsArr.forEach((item) => {
     let itemArr = item.split('=');
-  arr.push({
-        [decodeURI(itemArr[0])]: itemArr[1]
-      }
-  );
-})
+    arr.push({
+          [decodeURI(itemArr[0])]: itemArr[1]
+        }
+    );
+  })
   ;
   return arr;
 }
@@ -167,20 +167,20 @@ export function AppJump(jumpLink, download) {
   let d = new Date();
   let t0 = d.getTime();
   openApp(jumpLink);
-  let delay = setInterval(() = > {
-    let d = new Date();
-  let t1 = d.getTime();
-  if (t1 - t0 < 3000 && t1 - t0 > 2000) {
-    // 这里跳转下载页
-    Indicator.close();
-    window.location.href = download;
-  }
-  if (t1 - t0 >= 3000) {
-    clearInterval(delay);
-  }
-},
-  1000
-)
+  let delay = setInterval(() => {
+        let d = new Date();
+        let t1 = d.getTime();
+        if (t1 - t0 < 3000 && t1 - t0 > 2000) {
+          // 这里跳转下载页
+          Indicator.close();
+          window.location.href = download;
+        }
+        if (t1 - t0 >= 3000) {
+          clearInterval(delay);
+        }
+      },
+      1000
+      )
   ;
 
   function openApp(src) {
@@ -194,11 +194,11 @@ export function AppJump(jumpLink, download) {
       ifr.src = src;
       ifr.style.display = 'none';
       document.body.appendChild(ifr);
-      window.setTimeout(() = > {
-        document.body.removeChild(ifr);
-    },
-      2000
-    )
+      window.setTimeout(() => {
+            document.body.removeChild(ifr);
+          },
+          2000
+      )
       ;
     }
   }
@@ -230,10 +230,10 @@ export function goBackConfirm(callback) {
 export function getCookie() {
   let obj = {};
   let cookieArr = document.cookie.split(';');
-  cookieArr.forEach((item) = > {
+  cookieArr.forEach((item) => {
     let itemArr = item.replace(/\s+/g, "").split('=');
-  obj[itemArr[0]] = itemArr[1];
-})
+    obj[itemArr[0]] = itemArr[1];
+  })
   ;
   return obj;
 }
@@ -264,7 +264,7 @@ export function moneyFormat(num, decimal) {
 export function dateFormat(x, y) {
   let z = {
     y: x.getFullYear(),
-    M: x.getMonth() +1,
+    M: x.getMonth() + 1,
     d: x.getDate(),
     h: x.getHours(),
     m: x.getMinutes(),
@@ -274,4 +274,16 @@ export function dateFormat(x, y) {
         return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-(v.length > 2 ? v.length : 2))
       }
   );
+}
+
+/**
+ * 手机号格式化 3 4 4
+ * @param phone {String}  手机号
+ * @returns {string | void | *}
+ */
+export function formatPhone(phone) {
+  if(typeof phone === 'number'){
+    phone = phone.toString();
+  }
+  return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3')
 }
