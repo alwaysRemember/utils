@@ -84,7 +84,7 @@ export function fixedClone(isAppendChild, cloneDom, company = 'rem') {
 
   // 插入dom 如果cloneDom的最后一个节点是cloneDom 那么就直接在最后插入dom 否则就在clone下一个节点前插入dom
   let parent = cloneDom.parentNode;
-  if (parent.lastChild === cloneDom || isAppendChild) {
+  if (parent.lastChild === cloneDom && isAppendChild) {
     parent.appendChild(dom);
   } else {
     parent.insertBefore(dom, cloneDom.nextSibling)
