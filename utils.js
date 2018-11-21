@@ -25,13 +25,15 @@ export function getSys() {
  * @param url url地址
  * @returns {Object}
  */
-export function getRequestParams(url) {
+export function GetRequest(url) {
   let theRequest = {};
-  if (url.indexOf("?") !== -1) {
-    let str = url.substr(1);
+  let index = url.indexOf("?");
+  if (index !== -1) {
+    let str = url.substr(index+1);
     let strs = str.split("&");
     for (let i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+      const [key,val] = strs[i].split("=");
+      theRequest[key] = val;
     }
   }
   return theRequest;
